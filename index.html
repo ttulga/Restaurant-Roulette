@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+	<head>
+        <meta charset="UTF-8">
+        <meta name="author" content="">
+        <title>Restaurant Roulette!</title>
+        <link rel="stylesheet" href="css/styles.css">
+	</head>
+	<body>
+		<h1>Some Clever Pun Goes Here!</h1>
+		<p class="message"></p>
+
+		<p class="filters">Current Location:
+			<input type="text" name="clocation"><br>	
+		</p>
+
+		<p class="filters">Maximum distance away (miles):
+			<input type="number" class="max-distance" value="0" min="0" max="10"
+			step="1">
+			<!--<button  class="refresh-button">Refresh</button> !-->
+		</p>
+
+		<p class="filters">Rank by:
+			<select name="categories">
+				<option value="select">Select One</option>
+				<option value="distance">Lowest Distance</option>
+				<option value="price">Lowest Expense</option>
+				<option value="rating">Best Rated</option>
+			</select>
+		</p>	
+
+		<p class="filters">Currently Open:
+			<select name="">
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</select>
+		</p>
+
+		<p class="filters">Price Range:
+			<input type="number" class="price-range" value="0" min="0" max="4"
+			step="1">
+		</p>
+
+	</body>
+</html>
