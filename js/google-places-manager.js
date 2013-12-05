@@ -25,12 +25,14 @@ $(function() {
 
 // Gather query parameters from html, validate, and 
 // get the JSON using Google's API
-getRestaurantData() {
+function getRestaurantData() {
 	// gather query parameters
+	
+	queryUrl = url;
 	for(var i = 0; i < queryParams.length; i++) {
 		// grab each value in the html
 		var item = queryParams[i];
-		item.value = $('.' + item.name).html();
+		item.value = $('.' + item.name).attr('value');
 		
 		// convert special cases
 		if(item.name == 'location') {
@@ -46,15 +48,17 @@ getRestaurantData() {
 		}
 		
 		// append parameters to url
-		url += '&' + itemName + '=' + itemValue;
+		queryUrl += '&' + item.name + '=' + item.value;
 	}
+	
+	alert(queryUrl);
 	
 	// validate 
 	//var valid = validateParams(queryParams);
 	var valid = true;
 	
-	if valid {
-		getJSON(url, function(data){
+	if(valid){
+		$.getJSON(url, function(data){
 			alert(data);
 			return data;
 		});

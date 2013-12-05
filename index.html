@@ -16,13 +16,13 @@
 		</p>
 
 		<p class="filters">Maximum distance away (miles):
-			<input type="number" class="max-distance" value="0" min="0" max="10"
+			<input type="number" class="radius" value="0" min="0" max="10"
 			step="1">
 			<!--<button  class="refresh-button">Refresh</button> !-->
 		</p>
 
 		<p class="filters">Rank by:
-			<select name="categories">
+			<select name="categories" class="rankby">
 				<option value="select">Select One</option>
 				<option value="distance">Lowest Distance</option>
 				<option value="price">Lowest Expense</option>
@@ -31,14 +31,14 @@
 		</p>	
 
 		<p class="filters">Currently Open:
-			<select name="">
+			<select name="" class="opennow">
 				<option value="yes">Yes</option>
 				<option value="no">No</option>
 			</select>
 		</p>
 
 		<p class="filters">Price Range:
-			<input type="number" class="price-range" value="1" min="1" max="4"
+			<input type="number" class="minprice" value="1" min="1" max="4"
 			step="1">
 		</p>
 
@@ -47,7 +47,7 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-        <script src="js/google-places-manager.js"></script>
-        <script src="js/queryparams.js"></script>
+        <script src="js/query-params.js"></script>
+		<script src="js/google-places-manager.js"></script>
 	</body>
 </html>

@@ -14,11 +14,12 @@ var queryParams = [
         "name": "radius"
     },
     {
-        "name": "rankby=",
+        "name": "rankby",
 		"value": "prominence"
     },
     {
-        "name": "sensor" // must be true or false
+        "name": "sensor", // must be true or false
+		"value": "false"
     },
 	{
 		"name": "opennow",
@@ -30,8 +31,5 @@ var queryParams = [
 	},
 	{
 		"name": "minprice"
-	},
-	{
-		"name": "maxprice"
 	}
 ];
