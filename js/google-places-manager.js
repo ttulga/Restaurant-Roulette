@@ -16,23 +16,23 @@ var restaurants;
 // should this be in a separate .js file?
 var queryParams = [
     {
-        "name": "key",
+        "name": "key"
     },
     {
-        "name": "location",
+        "name": "location"
     },
     {
-        "name": "radius",
+        "name": "radius"
     },
     {
         "name": "rankby=",
-		"value": "distance",
+		"value": "distance"
     },
     {
-        "name": "sensor", // must be true or false
+        "name": "sensor" // must be true or false
     },
 	{
-		"name": "",
+		"name": ""
 	}
 ];
 
