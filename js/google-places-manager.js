@@ -30,7 +30,7 @@ var queryParams = [
     },
     {
         "name": "sensor", // must be true or false
-    }
+    },
 	{
 		"name": "",
 	}
