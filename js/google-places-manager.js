@@ -7,61 +7,58 @@
 // Places API (specifically Places Searches)
 // https://developers.google.com/places/documentation/
 
-var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?';
-
+// Cam's Google API key (with Places allowed)
 var key = 'AIzaSyBY55ORyqjG8LaN8_h3KIUQ6QR7WbmRz4A';
 
+// url for JSON's GET call
+var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + key;
+
+// restaurants variable to hold JSON's return data
 var restaurants;
 
-// should this be in a separate .js file?
-var queryParams = [
-    {
-        "name": "key"
-    },
-    {
-        "name": "location"
-    },
-    {
-        "name": "radius"
-    },
-    {
-        "name": "rankby=",
-		"value": "distance"
-    },
-    {
-        "name": "sensor" // must be true or false
-    },
-	{
-		"name": ""
-	}
-];
-
-// on load, add mouseClicked event to Select button
 $(function() {
-	add mouseClick event to a select/spin roulette button
+	// on load, add click listener to SPIN button
+	$('button.spin').click(function(){
+		restaurants = getRestaurantData();
+	});
 }); // doc ready
 
 // Gather query parameters from html, validate, and 
 // get the JSON using Google's API
 getRestaurantData() {
 	// gather query parameters
-	for each item in queryParams {
-		grabValueFromHTML();
+	for(var i = 0; i < queryParams.length; i++) {
+		// grab each value in the html
+		var item = queryParams[i];
+		item.value = $('.' + item.name).html();
 		
-		if item is location {
-			convertToLatLong()
-		} else if item is radius {
-			convertToMeters()
+		// convert special cases
+		if(item.name == 'location') {
+			// convert location from query to lat/long using
+			// something like this:
+			// https://maps.googleapis.com/maps/api/place/textsearch/json?query=uw+seattle&sensor=true&key=AIzaSyBY55ORyqjG8LaN8_h3KIUQ6QR7WbmRz4A
+			// item.value = "lat,long";
+		} else if (item.name == 'radius') {
+			// convert radius from miles to meters
+			radiusInMiles = parseInt(item.value);
+			radiusInMeters = radiusInMiles * 1609.34;
+			item.value = radiusInMeters;
 		}
 		
+		// append parameters to url
 		url += '&' + itemName + '=' + itemValue;
 	}
 	
-	var valid = validateParams(queryParams);
+	// validate 
+	//var valid = validateParams(queryParams);
+	var valid = true;
 	
 	if valid {
 		getJSON(url, function(data){
-			restaurants = data;
+			alert(data);
+			return data;
 		});
+	} else {
+		return false;
 	}
 }
