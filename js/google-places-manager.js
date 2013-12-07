@@ -32,7 +32,7 @@ function getRestaurantData() {
 	for(var i = 0; i < queryParams.length; i++) {
 		// grab each value in the html
 		var item = queryParams[i];
-		item.value = $('.' + item.name).attr('value');
+		item.value = $('.' + item.name).val();//attr('value');
 		
 		// convert special cases
 		if(item.name == 'location') {
@@ -49,6 +49,7 @@ function getRestaurantData() {
 		
 		// append parameters to url
 		queryUrl += '&' + item.name + '=' + item.value;
+		//alert(item.value);
 	}
 	
 	alert(queryUrl);
@@ -65,4 +66,5 @@ function getRestaurantData() {
 	} else {
 		return false;
 	}
+	//window.location = queryUrl;
 }
