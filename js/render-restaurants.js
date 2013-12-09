@@ -6,6 +6,9 @@
 
 
 // called when a placeSearch function is completed
+// restaurants is a list of results -- see this for
+// a more detailed example (specifically "results" list):
+// https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=500&types=food&name=harbour&sensor=false&key=AIzaSyBY55ORyqjG8LaN8_h3KIUQ6QR7WbmRz4A
 function renderRestaurants(restaurants) {
 	var restaurantsElem = $('.restaurants'); // div container
 	
