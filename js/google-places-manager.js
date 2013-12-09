@@ -11,7 +11,7 @@
 var key = 'AIzaSyBY55ORyqjG8LaN8_h3KIUQ6QR7WbmRz4A';
 
 // restaurants variable to hold JSON's return data
-var restaurants = [];
+var restaurants;
 
 var infoWindow;
 var placemarkers = [];
@@ -23,11 +23,11 @@ $(function() {
 	// set up map (defaulted to center on UW)
 	// and update map if current location is given
 	var locationUW = new google.maps.LatLng(47.655335, -122.303519);
-	setupMap(locationUW);
+	var map = setupMap(locationUW);
 
 	// add click listener to SPIN button
 	$('button.spin').click(function(){
-		restaurants = getRestaurantData();
+		restaurants = getRestaurantData(map);
 	});
 }); // doc ready
 
@@ -37,7 +37,6 @@ $(function() {
 // Default centered on UW, but recenters if 
 // the user's location is shared.
 function setupMap(location) {
-	var location = location;
 	map = new google.maps.Map($('.map-container')[0], {
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 		center: location,
@@ -49,7 +48,6 @@ function setupMap(location) {
 	navigator.geolocation.getCurrentPosition(function(place) {       
 		location = new google.maps.LatLng(place.coords.latitude, 
 			place.coords.longitude)
-		// make a marker for the current location
 		createMarker(location, 
 			map,
 			null,
@@ -61,8 +59,9 @@ function setupMap(location) {
 				}
 			}
 		);
+	// set the current location to UW if device's
+	// current location is NOT allowed
 	}, function() {
-		// make a marker for the current location
 		createMarker(location, 
 			map,
 			null,
@@ -76,7 +75,9 @@ function setupMap(location) {
 		);
 	});
 
-	// default search
+	// default places search to show open
+	// restaurants within 1km of starting
+	// location (default: UW or geolocation)
 	placeSearch(map, {
 		radius: 1000, // meters
 		types: ['restaurant', 'food', 'cafe', 'meal-takeaway'],
@@ -84,7 +85,9 @@ function setupMap(location) {
 		minprice: 1,
 		rankby: 'distance',
 		location: location
-	});
+	}, false);
+
+	return map;
 }
 
 
@@ -102,7 +105,11 @@ function createMarker(latlng, map, icon, content, center,action) {
     if (center) {
 		map.setCenter(latlng);
 	}
-        
+
+	// Add click listener to show some
+	// popup information
+	// TODO: pictures, rating, directions button,
+	// 		 hours, etc? 
 	google.maps.event.addListener(marker, 'click', function() {
 		infoWindow.setContent(this.content);
 		infoWindow.open(map, this);
@@ -118,8 +125,12 @@ function createMarker(latlng, map, icon, content, center,action) {
 // the Google Map object. We can specify params
 // like types (ie. restaurant), radius, opennow, 
 // etc.
-function placeSearch(map, request) {
+function placeSearch(map, request, update) {
 	var service = new google.maps.places.PlacesService(map);
+
+	// Now pass the parameters in the request
+	// array to the service, and if it returns
+	// an OK result, make some markers
 	service.search(request, function(results,status) {
 		if (status == google.maps.places.PlacesServiceStatus.OK) {
 			var bounds = new google.maps.LatLngBounds();
@@ -139,36 +150,62 @@ function placeSearch(map, request) {
         		);
 			}
 		map.fitBounds(bounds);
-		return results;
+
+		// Update the restaurants variable to reflect
+		// new search results
+		if(update) {
+			restaurants = results;
+			alert('Found ' + results.length + ' results.');
+			for(var i = 0; i < results.length; i++) {
+				alert(results[i].name + '\n' + results[i].rating + '\n' + (i+1) + '/' + results.length)
+			}
+		}
+
 		}
 	});     
 }
 
 
-// Gather query parameters from html and get the 
-// JSON using Google's API
-function getRestaurantData() {
+// Gather query parameters from html and pass it 
+// to the placeSearch function as a request
+function getRestaurantData(map) {
 
-	// gather query parameters
-	queryUrl = url;
-	for(var i = 0; i < queryParams.length; i++) {
-		// grab each value in the html by using
-		// the matching class names
-		//   ie: location's query value will be 
-		//   whatever has a class="location"
-		var item = queryParams[i];
-		item.value = $('.' + item.name).val();
-		
-		// convert special cases
-		if(item.name == 'location') {
-			// location needs to be in 
-			// ("float","float") for lat/long
-			item.value = convertToLatLong(item.value)
-		} else if (item.name == 'radius') {
-			// convert radius from miles to meters
-			radiusInMiles = parseInt(item.value);
-			radiusInMeters = radiusInMiles * 1609.34;
-			item.value = radiusInMeters;
-		}		
-	}
+	// convert location from text query to 
+	// (lat, lng) format by searching Google's
+	// places for the location given.
+	// TODO: what if they have no results? or
+	// 		 too many results?
+	textSearch(map, $('.location').val());
+}
+
+
+// Take the query inside the $('.location') element
+// and find the lat/lng of that location. Use that in
+// a placeSearch query with parameters gathered from
+// the HTML for items like radius, rankby, and minprice.
+function textSearch(map, query) {
+	var request = {
+		query: query
+	};
+	service = new google.maps.places.PlacesService(map);
+	service.textSearch(request, function(results, status) {
+		if (status == google.maps.places.PlacesServiceStatus.OK) {
+			if(results.length > 0) {
+				currentLocation = results[0].geometry.location;
+			}
+		}
+
+		var radiusInMeters = parseInt($('.radius').val()) * 1609.34;	
+		// put query parameters into a request object
+		var request = {
+			location: currentLocation,
+			radius: radiusInMeters,
+			rankby: $('.rankby').val(),
+			minprice: $('.minprice').val(),
+			opennow: true,
+			types: ['restaurant', 'food', 'cafe', 'meal-takeaway']
+		};
+
+		placeSearch(map, request, true);
+	});
 }
