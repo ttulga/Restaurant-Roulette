@@ -7,6 +7,20 @@
 // Places API (specifically Places Searches)
 // https://developers.google.com/places/documentation/
 
+/*
+	TODO
+	* align the infowindow popup
+	* it's too zoomed in after a search
+	* make the location box bigger
+	* use toggle buttons for price range
+	* make the current location marker more unique (change icon maybe?)
+	* try using var place = autocomplete.getPlace(); instead of textSearch() fnc
+	* filters?
+
+	https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
+	autocomplete stuff ^^^
+*/
+
 // Cam's Google API key (with Places allowed)
 var key = 'AIzaSyBY55ORyqjG8LaN8_h3KIUQ6QR7WbmRz4A';
 
@@ -15,6 +29,8 @@ var restaurants;
 
 var infoWindow;
 var placemarkers = [];
+
+var marker;
 
 
 // on load
@@ -25,58 +41,48 @@ $(function() {
 	var locationUW = new google.maps.LatLng(47.655335, -122.303519);
 	var map = setupMap(locationUW);
 
+	var location = getStartingLocation();
+	if(!location) {
+		location = locationUW;
+	}
+
+	// set up info window (info popups on mapmarkers)
+	infoWindow = new google.maps.InfoWindow();
+
 	// autocomplete location queries
 	var input = $('.location')[0];
 	var autocomplete = new google.maps.places.Autocomplete(input);
 
-	// add click listener to SPIN button
-	$('button.spin').click(function(){
-		restaurants = getRestaurantData(map);
+	// make a map marker for current location
+	marker = new google.maps.Marker({
+		map: map
 	});
-}); // doc ready
 
+	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+		infoWindow.close();
+		marker.setVisible(false);
+		var place = autocomplete.getPlace();
+		if (!place.geometry) {
+			return; // if there's no GPS lat/lng, we're lost!
+		}
 
-// Creates and displays a new Google Map object
-// in the HTML element with class="map-container".
-// Default centered on UW, but recenters if 
-// the user's location is shared.
-function setupMap(location) {
-	map = new google.maps.Map($('.map-container')[0], {
-		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		center: location,
-		zoom: 15
-	});
-	infoWindow = new google.maps.InfoWindow();
+		map.setCenter(place.geometry.location);
+		map.setZoom(12);
 
-	// update the current location if allowed
-	navigator.geolocation.getCurrentPosition(function(place) {       
-		location = new google.maps.LatLng(place.coords.latitude, 
-			place.coords.longitude)
-		createMarker(location, 
-			map,
-			null,
-			'Your current position',
-			true,
-			{
-				fnc:function() {
-					infoWindow.open();
-				}
-			}
-		);
-	// set the current location to UW if device's
-	// current location is NOT allowed
-	}, function() {
-		createMarker(location, 
-			map,
-			null,
-			'UW (Default Location)',
-			true,
-			{
-				fnc:function() {
-					infoWindow.open();
-				}
-			}
-		);
+		marker.setIcon(({
+			url: place.icon,
+			size: new google.maps.Size(71, 71),
+			scaledSize: new google.maps.Size(35, 35),
+			anchor: new google.maps.Point(17, 34),
+			origin: new google.maps.Point(0, 0)
+		}));
+		marker.setPosition(place.geometry.location);
+		marker.setVisible(true);
+
+		infoWindow.setContent('Hello! ' + place.name);
+		infoWindow.open(map, marker);
+
+		getRestaurantData(map);
 	});
 
 	// default places search to show open
@@ -91,6 +97,37 @@ function setupMap(location) {
 		location: location
 	}, false);
 
+	// add click listener to SPIN button
+	$('button.spin').click(function(){
+		restaurants = getRestaurantData(map);
+	});
+}); // doc ready
+
+// try to get current location (if they allow us to),
+// otherwise, default is returned
+function getStartingLocation() {
+	var location = false;
+
+	// update the current location if allowed
+	navigator.geolocation.getCurrentPosition(function(place) {       
+		location = new google.maps.LatLng(place.coords.latitude, place.coords.longitude)
+	});
+
+	return location;
+}
+
+
+// Creates and displays a new Google Map object
+// in the HTML element with class="map-container".
+// Default centered on UW, but recenters if 
+// the user's location is shared.
+function setupMap(location) {
+	map = new google.maps.Map($('.map-container')[0], {
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		center: location,
+		zoom: 15
+	});
+
 	return map;
 }
 
@@ -101,10 +138,16 @@ function createMarker(latlng, map, icon, content, center,action) {
 	var marker = new google.maps.Marker({
 		map: map,
 		position: latlng,
-		content:content
+		content:content,
 	});
     if (icon) {
-		marker.setIcon(icon);
+		marker.setIcon(({
+			url: icon,
+			size: new google.maps.Size(32, 32),
+			origin: new google.maps.Point(0, 0),
+			anchor: new google.maps.Point(8, 16),
+			scaledSize: new google.maps.Size(16, 16)
+		}));
 	}   
     if (center) {
 		map.setCenter(latlng);
@@ -137,12 +180,16 @@ function placeSearch(map, request, update) {
 	// an OK result, make some markers
 	service.search(request, function(results,status) {
 		if (status == google.maps.places.PlacesServiceStatus.OK) {
+
+			placemarkers = clearMarkers(placemarkers);
+
 			var bounds = new google.maps.LatLngBounds();
 			for (var i = 0; i < results.length; ++i) { 
                 bounds.extend(results[i].geometry.location);
             	placemarkers.push(createMarker(results[i].geometry.location,
             		map,
-					'http://labs.google.com/ridefinder/images/mm_20_orange.png',
+            		results[i].icon,
+					//'http://labs.google.com/ridefinder/images/mm_20_orange.png',
 					results[i].name,
 					false,
 					{
@@ -166,6 +213,16 @@ function placeSearch(map, request, update) {
 	});     
 }
 
+
+// clears the map markers by rendering
+// them invisible and pushing them out
+// of the list (placemarkers)
+function clearMarkers(placemarkers) {
+	for(var i = 0; i < placemarkers.length; i++) {
+		placemarkers[i].setVisible(false);
+	}
+	return []; // placemarkers is returned as empty list
+}
 
 // Gather query parameters from html and pass it 
 // to the placeSearch function as a request
