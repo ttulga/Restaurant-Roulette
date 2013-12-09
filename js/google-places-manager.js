@@ -159,10 +159,7 @@ function placeSearch(map, request, update) {
 		// new search results
 		if(update) {
 			restaurants = results;
-			alert('Found ' + results.length + ' results.');
-			for(var i = 0; i < results.length; i++) {
-				alert(results[i].name + '\n' + results[i].rating + '\n' + (i+1) + '/' + results.length)
-			}
+			renderRestaurants(results);
 		}
 
 		}
