@@ -12,10 +12,10 @@
 	* align the infowindow popup
 	* it's too zoomed in after a search
 	* make the location box bigger
-	* use toggle buttons for price range
-	* make the current location marker more unique (change icon maybe?)
+	** use toggle buttons for price range
+	** make the current location marker more unique (change icon maybe?)
 	* try using var place = autocomplete.getPlace(); instead of textSearch() fnc
-	* filters?
+	* filters? -- maybe research about filters is more realistic
 
 	https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
 	autocomplete stuff ^^^
