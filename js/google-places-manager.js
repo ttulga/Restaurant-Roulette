@@ -25,6 +25,10 @@ $(function() {
 	var locationUW = new google.maps.LatLng(47.655335, -122.303519);
 	var map = setupMap(locationUW);
 
+	// autocomplete location queries
+	var input = $('.location')[0];
+	var autocomplete = new google.maps.places.Autocomplete(input);
+
 	// add click listener to SPIN button
 	$('button.spin').click(function(){
 		restaurants = getRestaurantData(map);
