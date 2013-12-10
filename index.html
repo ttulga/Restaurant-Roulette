@@ -8,52 +8,59 @@
         <link rel="stylesheet" href="css/styles.css">
 	</head>
 	<body>
-		<h1>Some Clever Pun Goes Here!</h1>
-		<p class="message"></p>
+		<div class="container">
+			<h1>Some Clever Pun Goes Here!</h1>	
 
-		<p class="filters">Current Location:
-			<input type="text" name="clocation" class="location"><br>	
-		</p>
+			<div class="row">
+				<div class="col-md-6">
+					<p class="message"></p>
 
-		<p class="filters">Maximum distance away (miles):
-			<input type="number" class="radius" value="1" min="1" max="10"
-			step="1">
-			<!--<button  class="refresh-button">Refresh</button> !-->
-		</p>
+					<p class="filters">Current Location:
+						<input type="text" name="clocation" class="location"><br>	
+					</p>
 
-		<p class="filters">Rank by:
-			<select name="categories" class="rankby">
-				<option value="select">Select One</option>
-				<option value="distance">Lowest Distance</option>
-				<option value="price">Lowest Expense</option>
-				<option value="rating">Best Rated</option>
-			</select>
-		</p>	
+					<p class="filters">Maximum distance away (miles):
+						<input type="number" class="radius" value="1" min="1" max="10"
+						step="1">
+						<!--<button  class="refresh-button">Refresh</button> !-->
+					</p>
 
-		<p class="filters">Price Range:		
-			<div class="btn-group">
-				<button type="button" class="btn btn-default">$</button>
-				<button type="button" class="btn btn-default">$$</button>
-				<button type="button" class="btn btn-default">$$$</button>
-				<button type="button" class="btn btn-default">$$$$</button>
+					<p class="filters">Rank by:
+						<select name="categories" class="rankby">
+							<option value="select">Select One</option>
+							<option value="distance">Lowest Distance</option>
+							<option value="price">Lowest Expense</option>
+							<option value="rating">Best Rated</option>
+						</select>
+					</p>	
+
+					<p class="filters">Price Range:		
+						<div class="btn-group">
+							<button type="button" class="btn btn-default">$</button>
+							<button type="button" class="btn btn-default">$$</button>
+							<button type="button" class="btn btn-default">$$$</button>
+							<button type="button" class="btn btn-default">$$$$</button>
+						</div>
+					</p>
+
+					<button type="button" class="btn btn-primary spin">Spin!</button>
+					<ul class="randres">
+						<li class="name">Name</li>
+						<li class="address">Address</li>
+						<li class="phone">Phone</li>
+						<li>Rating: <span class="rating"></span>0/5</li>
+						<li class="review">Review</li>
+					</ul>
+				</div>
+				<div class="col-md-6">
+					<div class="map-container"></div>
+				</div>
 			</div>
-		</p>
-
-		<button type="button" class="btn btn-primary spin">Spin!</button>
-
-		<div class="map-container"></div>
-
-		<ul class="randres">
-			<li class="name"></li>
-			<li class="address"></li>
-			<li class="phone"></li>
-			<li class="rating"></li>
-			<li class="review"></li>
-		</ul>
-		
-		<ul class="restaurants">
-			<li class="restaurant template"></li>
-		</ul>
+			
+			<ul class="restaurants">
+				<li class="restaurant template"></li>
+			</ul>
+		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
