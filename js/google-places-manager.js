@@ -285,9 +285,9 @@ function textSearch(map, query) {
 		var request = {
 			location: currentLocation,
 			radius: radiusInMeters,
-			rankby: $('.rankby').val(),
-			minprice: $('.minprice').val(),
-			opennow: true,
+			minPriceLevel: 0,
+			maxPriceLevel: parseInt($('.max-price').val()),
+			openNow: true,
 			types: ['restaurant', 'food', 'cafe', 'meal-takeaway']
 		};
 
