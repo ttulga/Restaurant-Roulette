@@ -180,25 +180,32 @@ function placeSearch(map, request, update) {
 	// an OK result, make some markers
 	service.search(request, function(results,status) {
 		if (status == google.maps.places.PlacesServiceStatus.OK) {
+		
+			if(update) {
+				var randomIndex = Math.floor(Math.random() * results.length);
+				var randRestaurant = results[randomIndex];
+			}
 
 			placemarkers = clearMarkers(placemarkers);
 
 			var bounds = new google.maps.LatLngBounds();
 			for (var i = 0; i < results.length; ++i) { 
                 bounds.extend(results[i].geometry.location);
-            	placemarkers.push(createMarker(results[i].geometry.location,
-            		map,
-            		results[i].icon,
-					//'http://labs.google.com/ridefinder/images/mm_20_orange.png',
-					results[i].name,
-					false,
-					{
-						fnc:function() 
+				if(!update || i == randomIndex) {
+					placemarkers.push(createMarker(results[i].geometry.location,
+						map,
+						results[i].icon,
+						//'http://labs.google.com/ridefinder/images/mm_20_orange.png',
+						results[i].name,
+						false,
 						{
-							infoWindow.open();
-						}
-					})
-        		);
+							fnc:function() 
+							{
+								infoWindow.open();
+							}
+						})
+					);
+				}
 			}
 		map.fitBounds(bounds);
 
@@ -206,12 +213,7 @@ function placeSearch(map, request, update) {
 		// new search results
 		if(update) {
 			restaurants = results;
-
-			var randomIndex = Math.floor(Math.random() * results.length);
-			var randRestaurant = results[randomIndex];
-
 			getDetails(randRestaurant.reference);
-
 			renderRestaurants(results);
 		}
 
