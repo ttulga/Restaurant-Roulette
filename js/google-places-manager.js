@@ -12,7 +12,6 @@
 	* align the infowindow popup
 	* it's too zoomed in after a search
 	* make the location box bigger
-	** use toggle buttons for price range
 	** make the current location marker more unique (change icon maybe?)
 	* try using var place = autocomplete.getPlace(); instead of textSearch() fnc
 	* filters? -- maybe research about filters is more realistic
@@ -36,20 +35,25 @@ var marker;
 // on load
 $(function() {
 
-	// set up map (defaulted to center on UW)
-	// and update map if current location is given
+	// UW's Latitude/Longitude
 	var locationUW = new google.maps.LatLng(47.655335, -122.303519);
-	var map = setupMap(locationUW);
 
+	// try to get the starting location, but if 
+	// they don't allow it (or can't), use UW as
+	// the default.
 	var location = getStartingLocation();
 	if(!location) {
 		location = locationUW;
 	}
 
+	// set up the map at the determined location
+	var map = setupMap(location);
+
 	// set up info window (info popups on mapmarkers)
 	infoWindow = new google.maps.InfoWindow();
 
-	// autocomplete location queries
+	// add autocomplete functionality to location
+	// input textbox using Google's autocomplete. 
 	var input = $('.location')[0];
 	var autocomplete = new google.maps.places.Autocomplete(input);
 
@@ -67,10 +71,10 @@ $(function() {
 		}
 
 		map.setCenter(place.geometry.location);
-		map.setZoom(12);
+		map.setZoom(17);
 
 		marker.setIcon(({
-			url: place.icon,
+			url: 'http://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png',
 			size: new google.maps.Size(71, 71),
 			scaledSize: new google.maps.Size(35, 35),
 			anchor: new google.maps.Point(17, 34),
@@ -79,30 +83,30 @@ $(function() {
 		marker.setPosition(place.geometry.location);
 		marker.setVisible(true);
 
-		infoWindow.setContent('Hello! ' + place.name);
+		infoWindow.setContent(place.name);
 		infoWindow.open(map, marker);
-
-		getRestaurantData(map);
 	});
 
-	// default places search to show open
-	// restaurants within 1km of starting
-	// location (default: UW or geolocation)
-	/*
-	placeSearch(map, {
-		radius: 1000, // meters
-		types: ['restaurant', 'food', 'cafe', 'meal-takeaway'],
-		opennow: true,
-		minprice: 1,
-		rankby: 'distance',
-		location: location
-	}, false);
-	*/
 	// add click listener to SPIN button
 	$('button.spin').click(function(){
 		restaurants = getRestaurantData(map);
 	});
 }); // doc ready
+
+
+// Creates and displays a new Google Map object
+// in the HTML element with class="map-container".
+// Returns that map object.
+function setupMap(location) {
+	map = new google.maps.Map($('.map-container')[0], {
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		center: location,
+		zoom: 17 // apparently 17 looks 'good'
+	});
+
+	return map;
+}
+
 
 // try to get current location (if they allow us to),
 // otherwise, default is returned
@@ -110,26 +114,14 @@ function getStartingLocation() {
 	var location = false;
 
 	// update the current location if allowed
+	// NOTE: This won't work when index.html
+	//       is ran as a local file--upload
+	//       to web host first.
 	navigator.geolocation.getCurrentPosition(function(place) {       
 		location = new google.maps.LatLng(place.coords.latitude, place.coords.longitude)
 	});
 
 	return location;
-}
-
-
-// Creates and displays a new Google Map object
-// in the HTML element with class="map-container".
-// Default centered on UW, but recenters if 
-// the user's location is shared.
-function setupMap(location) {
-	map = new google.maps.Map($('.map-container')[0], {
-		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		center: location,
-		zoom: 15
-	});
-
-	return map;
 }
 
 
