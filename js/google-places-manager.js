@@ -63,7 +63,7 @@ $(function() {
 		marker.setVisible(false);
 		var place = autocomplete.getPlace();
 		if (!place.geometry) {
-			return; // if there's no GPS lat/lng, we're lost!
+			return; // if there's no lat/lng, we're lost!
 		}
 
 		map.setCenter(place.geometry.location);
@@ -208,16 +208,18 @@ function placeSearch(map, request, update) {
 					);
 				}
 			}
-		map.fitBounds(bounds);
+			map.fitBounds(bounds);
 
-		// Update the restaurants variable to reflect
-		// new search results
-		if(update) {
-			restaurants = results;
-			getDetails(randRestaurant.reference);
-			renderRestaurants(results);
-		}
+			// Update the restaurants variable to reflect
+			// new search results
+			if(update) {
+				restaurants = results;
+				getDetails(randRestaurant.reference);
+				renderRestaurants(results);
+			}
 
+		} else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+			alert("There were no matching results found. \nPlease expand your query parameters and try again.");
 		}
 	});     
 }
