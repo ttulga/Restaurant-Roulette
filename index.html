@@ -31,20 +31,25 @@
 		</p>	
 
 		<p class="filters">Price Range:
-			<input class="form-radios" type="radio" value="price1"> $
-			<input class="form-radios" type="radio" value="price2"> $$
-			<input class="form-radios" type="radio" value="price3"> $$$
-			<input class="form-radios" type="radio" value="price4"> $$$$ 
+			<div class="btn-toolbar" role="toolbar">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default">$</button>
+					<button type="button" class="btn btn-default">$$</button>
+					<button type="button" class="btn btn-default">$$$</button>
+					<button type="button" class="btn btn-default">$$$$</button>
+				</div>
+			</div>
 		</p>
 
-		<button type="button" class="spin">Spin!</button>
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary spin">Spin!</button>
+		</div>
 
 		<div class="map-container"></div>
 		
 		<ul class="restaurants">
 			<li class="restaurant template"></li>
 		</ul>
-
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
