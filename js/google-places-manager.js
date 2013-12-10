@@ -88,6 +88,7 @@ $(function() {
 	// default places search to show open
 	// restaurants within 1km of starting
 	// location (default: UW or geolocation)
+	/*
 	placeSearch(map, {
 		radius: 1000, // meters
 		types: ['restaurant', 'food', 'cafe', 'meal-takeaway'],
@@ -96,7 +97,7 @@ $(function() {
 		rankby: 'distance',
 		location: location
 	}, false);
-
+	*/
 	// add click listener to SPIN button
 	$('button.spin').click(function(){
 		restaurants = getRestaurantData(map);
