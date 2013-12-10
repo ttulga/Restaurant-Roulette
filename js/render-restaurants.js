@@ -30,5 +30,12 @@ function renderRestaurants(restaurants) {
 
 // callback when Details query comes back with status == OK
 function renderDetailedRestaurant(restaurant) {
-	alert('Randomly selected restaurant: ' + restaurant.name);
+	alert('Randomly selected restaurant: ' + restaurant.name + restaurant.geometry.location);
+
+	$(".name").html(restaurant.name);
+	$(".address").html(restaurant.formatted_address);
+	$(".phone").html(restaurant.formatted_phone_number);
+	$(".rating").html(restaurant.rating);
+	$(".review").html(restaurant.reviews[0].text);
+	
 }
