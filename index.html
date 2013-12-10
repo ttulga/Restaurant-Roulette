@@ -9,11 +9,11 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>Some Clever Pun Goes Here!</h1>	
+			<h1>Restaurant Roulette</h1>	
 
 			<div class="row">
 				<div class="col-md-6">
-					<p class="message"></p>
+					<p class="message">Welcome to Restaurant Roulette, enter your location, how far you want to go and your max price level, and Restaurant Roulette will pick a random <strong>OPEN</strong> restaurant meeting those fields.</p>
 
 					<p class="filters">Current Location:
 						<input type="text" name="clocation" class="location"><br>	
@@ -34,13 +34,14 @@
 						</select>
 					</p>	
 
-					<button type="button" class="btn btn-primary spin">Spin!</button>
+					<button type="button" class="btn btn-primary spin">Spin!</button><p>Open restaurants found: <span class="foundres">0</span></p>
 					<ul class="randres">
-						<li class="name">Name</li>
-						<li class="address">Address</li>
-						<li class="phone">Phone</li>
-						<li>Rating: <span class="rating"></span>0/5</li>
-						<li class="review">Review</li>
+						<li class="name">Name:</li>
+						<li class="address">Address:</li>
+						<li class="phone">Phone:</li>
+						<li>Rating: <span class="rating">0</span>/5</li>
+						<li>Price Level: <span class="price">1</span>/4</li>
+						<li>Random Review: <span class="review"></span> Rating: <span class="reviewrat">0</span>/5</li>
 					</ul>
 				</div>
 				<div class="col-md-6">
