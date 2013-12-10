@@ -89,6 +89,10 @@ $(function() {
 
 	// add click listener to SPIN button
 	$('button.spin').click(function(){
+		if ($(".location").val().trim() == "") {
+			alert("No location is entered");
+			return false;
+		}
 		restaurants = getRestaurantData(map);
 	});
 }); // doc ready
