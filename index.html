@@ -30,12 +30,16 @@
 			</select>
 		</p>	
 
-		<p class="filters">Price Range:
-			<input type="number" class="minprice" value="1" min="1" max="4"
-			step="1">
+		<p class="filters">Price Range:		
+			<div class="btn-group">
+				<button type="button" class="btn btn-default">$</button>
+				<button type="button" class="btn btn-default">$$</button>
+				<button type="button" class="btn btn-default">$$$</button>
+				<button type="button" class="btn btn-default">$$$$</button>
+			</div>
 		</p>
 
-		<button type="button" class="spin">Spin!</button>
+		<button type="button" class="btn btn-primary spin">Spin!</button>
 
 		<div class="map-container"></div>
 
@@ -50,7 +54,6 @@
 		<ul class="restaurants">
 			<li class="restaurant template"></li>
 		</ul>
-
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
