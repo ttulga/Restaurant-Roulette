@@ -11,4 +11,12 @@
 	display: none;
 }
 
+.location {
+	width: 400px;
+}
+
+.radius {
+	width: 2em;
+}
+
 
