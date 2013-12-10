@@ -24,9 +24,34 @@
 }
 
 .container {
-
+	background-color: white;
+	border:5px solid purple;
+	border-radius: 25px;
 }
 
-.body {
+body {
 	background-color: grey;
+}
+
+.footer {
+	color: grey;
+	text-align: center;
+}
+
+.footer p {
+	margin: 0px;
+	font-size: 8pt;
+}
+
+.randres li {
+	font-weight: bold;
+}
+
+.pick {
+	font-size: 110%;
+	margin-bottom: 10px;
+}
+
+.title {
+	font-family: Montserrat Subrayada;
 }

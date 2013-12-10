@@ -4,16 +4,21 @@
         <meta charset="UTF-8">
         <meta name="author" content="">
         <title>Restaurant Roulette!</title>
+        <link href='http://fonts.googleapis.com/css?family=Montserrat+Subrayada' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/styles.css">
 	</head>
 	<body>
 		<div class="container">
-			<h1>Restaurant Roulette</h1>	
+			<div class="row">
+				<h1 class="title">Restaurant Roulette</h1>	
 
+				<div class="col-md-12">
+					<p class="message">Welcome to Restaurant Roulette, enter your location, how far you want to go and your max price level, and Restaurant Roulette will pick a random <strong>OPEN</strong> restaurant for you.</p>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<p class="message">Welcome to Restaurant Roulette, enter your location, how far you want to go and your max price level, and Restaurant Roulette will pick a random <strong>OPEN</strong> restaurant meeting those fields.</p>
 
 					<p class="filters">Current Location:
 						<input type="text" name="clocation" class="location"><br>	
@@ -35,10 +40,11 @@
 					</p>	
 
 					<button type="button" class="btn btn-primary spin">Spin!</button><p>Open restaurants found: <span class="foundres">0</span></p>
-					<ul class="randres">
-						<li class="name">Name:</li>
-						<li class="address">Address:</li>
-						<li class="phone">Phone:</li>
+					<ul class="randres template">
+						<li class="pick">Restaurant Roulette Picks:</li>
+						<li>Name: <span class="name"></span></li>
+						<li>Address: <span class="address"></span></li>
+						<li>Phone: <span class="phone"></span></li>
 						<li>Rating: <span class="rating">0</span>/5</li>
 						<li>Price Level: <span class="price">1</span>/4</li>
 						<li>Random Review: <span class="review"></span> Rating: <span class="reviewrat">0</span>/5</li>
@@ -52,6 +58,15 @@
 			<ul class="restaurants">
 				<li class="restaurant template"></li>
 			</ul>
+
+			<hr>
+			<div class="footer">
+				<p>Restaurant Roulette - Group 4</p>
+				<p>About:</p>
+				<p>Final Project for INFO 343 UW</p>
+				<p>Uses Googles places API</p>
+				<p>Authors: Cam Scotland, Tuvshin Tulga, Chris Teung, Mikey Wong</p>
+			</div>
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
