@@ -206,11 +206,35 @@ function placeSearch(map, request, update) {
 		// new search results
 		if(update) {
 			restaurants = results;
+
+			var randomIndex = Math.floor(Math.random() * results.length);
+			var randRestaurant = results[randomIndex];
+
+			getDetails(randRestaurant.reference);
+
 			renderRestaurants(results);
 		}
 
 		}
 	});     
+}
+
+
+function getDetails(restaurantRef) {
+	var service = new google.maps.places.PlacesService(map);
+
+	var request = {
+		reference: restaurantRef
+	}
+
+	service.getDetails(request, detailsCallback);
+}
+
+
+function detailsCallback(place, status) {
+	if (status == google.maps.places.PlacesServiceStatus.OK) {
+		renderDetailedRestaurant(place);
+	}
 }
 
 

@@ -26,3 +26,9 @@ function renderRestaurants(restaurants) {
 		newElem.appendTo(restaurantsElem);
 	}
 }
+
+
+// callback when Details query comes back with status == OK
+function renderDetailedRestaurant(restaurant) {
+	alert('Randomly selected restaurant: ' + restaurant.name);
+}
