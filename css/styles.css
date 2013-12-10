@@ -19,4 +19,14 @@
 	width: 2em;
 }
 
+.randres {
+	list-style: none;
+}
 
+.container {
+
+}
+
+.body {
+	background-color: grey;
+}

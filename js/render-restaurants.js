@@ -28,11 +28,17 @@ function renderRestaurants(restaurants) {
 }
 
 
+
+
 // callback when Details query comes back with status == OK
 function renderDetailedRestaurant(restaurant) {
+
 	$(".name").html(restaurant.name);
 	$(".address").html(restaurant.formatted_address);
 	$(".phone").html(restaurant.formatted_phone_number);
 	$(".rating").html(restaurant.rating);
+	$(".price").html(restaurant.price_level);
 	$(".review").html(restaurant.reviews[0].text);
+	$(".reviewrat").html(restaurant.reviews[0].rating);
+	$(".foundres").html(restaurants.length);
 }
